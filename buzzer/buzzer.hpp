@@ -67,9 +67,10 @@ class Buzzer
          * @param on_ms   Duration of the ON period in milliseconds.
          * @param off_ms  Duration of the OFF period in milliseconds.  
          * @param cnt     Optional parameter to secifiy the number of tones to 
-         *                generate. Defaults to 1.
+         *                generate. Defaults to UINT16_MAX which leads to 
+         *                infinite tone generation.
          */
-        void pulse(uint16_t on_ms, uint16_t off_ms, uint16_t cnt = 1);
+        void pulse(uint16_t on_ms, uint16_t off_ms, uint16_t cnt = UINT16_MAX);
 
         /**
          * @brief The task function to call in the main loop.

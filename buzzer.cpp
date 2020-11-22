@@ -96,7 +96,10 @@ void Buzzer::task(uint32_t millis)
 
         if(Step == 2)
         {
-            Count --;
+            if (Count < UINT16_MAX)
+            {
+                Count--;
+            }
             Step = 0;
         }
 
