@@ -35,10 +35,10 @@ Buzzer::Buzzer() :
 
 Buzzer::Buzzer(uint32_t pin)
 {
-    init(pin);
+    begin(pin);
 }
 
-void Buzzer::init(uint32_t pin)
+void Buzzer::begin(uint32_t pin)
 {
     Pin = pin;
     Delay[0] = 0;
@@ -96,7 +96,7 @@ void Buzzer::task(uint32_t millis)
 
         if(Step == 2)
         {
-            if (Count < UINT16_MAX)
+            if (Count < BUZZ_INFINTIE)
             {
                 Count--;
             }

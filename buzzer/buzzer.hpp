@@ -1,6 +1,6 @@
 /*
  * buzzer, a class used to control a simple buzzer and generate pulsed tones 
- * without bussy waiting.
+ * without busy waiting.
  * 
  * Copyright (C) 2020 Julian Friedrich
  * 
@@ -25,6 +25,15 @@
 #ifndef BUZZER_HPP_
 #define BUZZER_HPP_
 
+/**
+ * @brief Let the buzzer beep for a infinte amount of time.
+ */
+#define BUZZ_INFINTIE               UINT16_MAX
+
+/**
+ * @brief A class used to control a simple buzzer and generate pulsed tones 
+ * without busy waiting.
+ */
 class Buzzer
 {
     public:
@@ -50,7 +59,7 @@ class Buzzer
          * 
          * @param pin The pin the buzzer is connected to.
          */
-        void init(uint32_t pin);
+        void begin(uint32_t pin);
 
         /**
          * @brief Turn the buzzer statically on or off.
@@ -70,7 +79,8 @@ class Buzzer
          *                generate. Defaults to UINT16_MAX which leads to 
          *                infinite tone generation.
          */
-        void pulse(uint16_t on_ms, uint16_t off_ms, uint16_t cnt = UINT16_MAX);
+        void pulse(uint16_t on_ms, uint16_t off_ms, 
+                uint16_t cnt = BUZZ_INFINTIE);
 
         /**
          * @brief The task function to call in the main loop.
