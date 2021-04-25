@@ -21,14 +21,15 @@
  */
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifndef BUZZER_HPP_
 #define BUZZER_HPP_
 
 /**
- * @brief Let the buzzer beep for a infinte amount of time.
+ * @brief Let the buzzer beep for a infinite amount of time.
  */
-#define BUZZ_INFINTIE               UINT16_MAX
+#define BUZZ_INFINTIE               UINT8_MAX
 
 /**
  * @brief A class used to control a simple buzzer and generate pulsed tones 
@@ -41,14 +42,14 @@ class Buzzer
         /**
          * @brief Construct a new Buzzer object
          * 
-         * The class will not be ready unil init() has been called
+         * The class will not be ready until init() has been called
          */
         Buzzer();
 
         /**
          * @brief Construct a new Buzzer object
          * 
-         * Calls the init function. The class is ready to be used imediately. 
+         * Calls the init function. The class is ready to be used immediately. 
          * 
          * @param pin The pin the buzzer is connected to.
          */
@@ -64,23 +65,41 @@ class Buzzer
         /**
          * @brief Turn the buzzer statically on or off.
          * 
-         * Anny ongoing sequence will be interrupted.
+         * Any ongoing sequence will be interrupted.
          * 
-         * @param state The new buzer state.
+         * @param state The new buzzer state.
          */
         void enable(bool state);
 
         /**
-         * @brief Starts a simple on/off sequence.
+         * @brief Creates a single tone with the given duration.
          * 
-         * @param on_ms   Duration of the ON period in milliseconds.
-         * @param off_ms  Duration of the OFF period in milliseconds.  
-         * @param cnt     Optional parameter to secifiy the number of tones to 
-         *                generate. Defaults to UINT16_MAX which leads to 
-         *                infinite tone generation.
+         * @param on_ms Optional tone duration, defaults to 100 ms.
          */
-        void pulse(uint16_t on_ms, uint16_t off_ms, 
-                uint16_t cnt = BUZZ_INFINTIE);
+        void beep(uint16_t on_ms = 100);
+
+        /**
+         * @brief Creates a given number of pulsed tones.
+         * 
+         * @param on_ms The duration of the tones.
+         * @param pause_ms The pause between two tones.
+         * @param tones The number of tones to create, defaults to 
+         *              BUZZ_INFINTIE.
+         */
+        void beep(uint16_t on_ms, uint16_t pause_ms, 
+                uint8_t tones = BUZZ_INFINTIE);
+
+        /**
+         * @brief Creates a a tone sequences.
+         * 
+         * @param on_ms The duration of the tones.
+         * @param off_ms The pause within a sequence.
+         * @param tones The number of tones in a sequence.
+         * @param pause_ms The pause between sequences.
+         * @param cnt The number of sequences, defaults to BUZZ_INFINTIE.
+         */
+        void beep(uint16_t on_ms, uint16_t off_ms, uint8_t tones, 
+                uint16_t pause_ms, uint8_t loops = BUZZ_INFINTIE);
 
         /**
          * @brief The task function to call in the main loop.
@@ -97,20 +116,32 @@ class Buzzer
         uint32_t Pin;
 
         /**
-         * @brief The delay array, slot 0 is the ON period, slot 1 is the off 
-         * period.
+         * @brief Holds the delays configured fo on/of/pause.
+         * 
          */
-        uint16_t Delay[2];
+        struct 
+        {
+            uint16_t On;
+            uint16_t Off;
+            uint16_t Pause;
 
+        } Delay;
+        
         /**
-         * @brief The index in the delay array.
+         * @brief The current step within the sequence.
          */
         uint8_t Step;
 
         /**
-         * @brief The number of tones to create
+         * @brief Number of step within a sequence.
+         * 
          */
-        uint16_t Count;
+        uint8_t Steps;
+
+        /**
+         * @brief The number of sequences.
+         */
+        uint16_t Loops;
 
         /**
          * @brief The time stamp of the last task tick.

@@ -13,7 +13,10 @@ void setup()
 {
     buzzer.begin(PB8);
     
-    buzzer.pulse(250, 250, 10);
+    /**
+     *  Creates 3 Tones, 100ms per tone, 200ms pause
+     */
+    buzzer.beep(100, 200, 3);
 }
 
 void loop()
