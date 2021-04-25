@@ -2,7 +2,7 @@
     "name": "libbuzzer",
     "version": "1.0.0",
     "keywords": "buzzer, Arduino",
-    "description": "A class used to operate a DC motor connected to a TB6612FNG driver by using STM32Duino hardware timer support",
+    "description": "A class used to control a simple buzzer and generate pulsed tones without busy waiting.",
     "license": "GPL-3.0",
     "repository":
     {
