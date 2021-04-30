@@ -1,8 +1,8 @@
 /*
- * buzzer, a class used to control a simple buzzer and generate pulsed tones 
- * without bussy waiting.
+ * PulsedPin, a class used to create low frequency pulsed signals without busy 
+ * waiting or hardware timers.
  * 
- * Copyright (C) 2020 Julian Friedrich
+ * Copyright (C) 2021 Julian Friedrich
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  *
- * You can file issues at https://github.com/fjulian79/libbuzzer/issues
+ * You can file issues at https://github.com/fjulian79/libpulsedpin/issues
  */
 
-#include <buzzer/buzzer.hpp>
+#include <pulsedpin/pulsedpin.hpp>
 #include <Arduino.h>
 
-Buzzer::Buzzer() : 
+PulsedPin::PulsedPin() : 
       Pin(0)
     , Delay({0,0,0})
     , Step(0)
@@ -34,12 +34,12 @@ Buzzer::Buzzer() :
 
 }
 
-Buzzer::Buzzer(uint32_t pin)
+PulsedPin::PulsedPin(uint32_t pin)
 {
     begin(pin);
 }
 
-void Buzzer::begin(uint32_t pin)
+void PulsedPin::begin(uint32_t pin)
 {
     Pin = pin;
     Delay = {0,0,0};
@@ -52,7 +52,7 @@ void Buzzer::begin(uint32_t pin)
     digitalWrite(Pin, LOW);
 }
 
-void Buzzer::enable(bool state)
+void PulsedPin::set(bool state)
 {
     Steps = 0;
     Step = 0;
@@ -64,17 +64,17 @@ void Buzzer::enable(bool state)
         digitalWrite(Pin, LOW);
 }
 
-void Buzzer::beep(uint16_t on_ms)
+void PulsedPin::pulse(uint16_t on_ms)
 {
-    beep(on_ms, 0, 1, 0, 1);
+    pulse(on_ms, 0, 1, 0, 1);
 }
 
-void Buzzer::beep(uint16_t on_ms, uint16_t pause_ms, uint8_t tones)
+void PulsedPin::pulse(uint16_t on_ms, uint16_t pause_ms, uint8_t tones)
 {
-    beep(on_ms, 0, 1, pause_ms, tones);
+    pulse(on_ms, 0, 1, pause_ms, tones);
 }
 
-void Buzzer::beep(uint16_t on_ms, uint16_t off_ms, uint8_t tones, uint16_t pause_ms, uint8_t cnt)
+void PulsedPin::pulse(uint16_t on_ms, uint16_t off_ms, uint8_t tones, uint16_t pause_ms, uint8_t cnt)
 {
     Delay.On = on_ms;
     Delay.Off = off_ms;
@@ -87,7 +87,7 @@ void Buzzer::beep(uint16_t on_ms, uint16_t off_ms, uint8_t tones, uint16_t pause
     LastTick = millis(); 
 }
 
-void Buzzer::task(uint32_t millis)
+void PulsedPin::task(uint32_t millis)
 {
     uint16_t delay = 0;
 
@@ -105,7 +105,7 @@ void Buzzer::task(uint32_t millis)
             Step++;
             if(Step == Steps)
             {
-                if (Loops < BUZZ_INFINTIE)
+                if (Loops < PULSEDPIN_INFINTIE)
                     Loops--;
                 Step = 0;
             }

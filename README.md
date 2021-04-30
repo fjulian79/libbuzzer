@@ -1,13 +1,13 @@
-# libbuzzer
-A class used to control a simple buzzer and generate pulsed tones without busy waiting.
+# libpulsedpin
+A class used to create low frequency pulsed signals without busy waiting or hardware timers
 
 **A small demo to demonstrate how to use the class:**
 
 ```C++
 #include <Arduino.h>
-#include <buzzer/buzzer.h>
+#include <pulsedpin/pulsedpin.h>
 
-Buzzer buzzer;
+PulsedPin buzzer;
 
 void setup()
 {
@@ -16,7 +16,7 @@ void setup()
     /**
      *  Creates 3 Tones, 100ms per tone, 200ms pause
      */
-    buzzer.beep(100, 200, 3);
+    buzzer.pulse(100, 200, 3);
 }
 
 void loop()

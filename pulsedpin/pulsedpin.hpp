@@ -1,8 +1,8 @@
 /*
- * buzzer, a class used to control a simple buzzer and generate pulsed tones 
- * without busy waiting.
+ * PulsedPin, a class used to create low frequency pulsed signals without busy 
+ * waiting or hardware timers.
  * 
- * Copyright (C) 2020 Julian Friedrich
+ * Copyright (C) 2021 Julian Friedrich
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,89 +17,89 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  *
- * You can file issues at https://github.com/fjulian79/libbuzzer/issues
+ * You can file issues at https://github.com/fjulian79/libpulsedpin/issues
  */
 
 #include <stdint.h>
 #include <stddef.h>
 
-#ifndef BUZZER_HPP_
-#define BUZZER_HPP_
+#ifndef PULSEDPIN_HPP_
+#define PULSEDPIN_HPP_
 
 /**
- * @brief Let the buzzer beep for a infinite amount of time.
+ * @brief Let the buzzer pulse for a infinite amount of time.
  */
-#define BUZZ_INFINTIE               UINT8_MAX
+#define PULSEDPIN_INFINTIE                  UINT8_MAX
 
 /**
  * @brief A class used to control a simple buzzer and generate pulsed tones 
  * without busy waiting.
  */
-class Buzzer
+class PulsedPin
 {
     public:
 
         /**
-         * @brief Construct a new Buzzer object
+         * @brief Construct a new PulsedPin object
          * 
          * The class will not be ready until init() has been called
          */
-        Buzzer();
+        PulsedPin();
 
         /**
-         * @brief Construct a new Buzzer object
+         * @brief Construct a new PulsedPin object
          * 
          * Calls the init function. The class is ready to be used immediately. 
          * 
-         * @param pin The pin the buzzer is connected to.
+         * @param pin The pin to use.
          */
-        Buzzer(uint32_t pin);
+        PulsedPin(uint32_t pin);
 
         /**
          * @brief Initializes the class for usage
          * 
-         * @param pin The pin the buzzer is connected to.
+         * @param pin The pin to use.
          */
         void begin(uint32_t pin);
 
         /**
-         * @brief Turn the buzzer statically on or off.
+         * @brief Turn the pin statically on or off.
          * 
          * Any ongoing sequence will be interrupted.
          * 
-         * @param state The new buzzer state.
+         * @param state The new pin state.
          */
-        void enable(bool state);
+        void set(bool state);
 
         /**
-         * @brief Creates a single tone with the given duration.
+         * @brief Creates a single pulse with the given duration.
          * 
          * @param on_ms Optional tone duration, defaults to 100 ms.
          */
-        void beep(uint16_t on_ms = 100);
+        void pulse(uint16_t on_ms = 100);
 
         /**
-         * @brief Creates a given number of pulsed tones.
+         * @brief Creates a given number of pulses.
          * 
-         * @param on_ms The duration of the tones.
-         * @param pause_ms The pause between two tones.
-         * @param tones The number of tones to create, defaults to 
-         *              BUZZ_INFINTIE.
+         * @param on_ms The duration of the pulse.
+         * @param pause_ms The pause between two pulses.
+         * @param tones The number of pulses to create, defaults to 
+         *              PULSEDPIN_INFINTIE.
          */
-        void beep(uint16_t on_ms, uint16_t pause_ms, 
-                uint8_t tones = BUZZ_INFINTIE);
+        void pulse(uint16_t on_ms, uint16_t pause_ms, 
+                uint8_t tones = PULSEDPIN_INFINTIE);
 
         /**
-         * @brief Creates a a tone sequences.
+         * @brief Creates a sequences.
          * 
-         * @param on_ms The duration of the tones.
+         * @param on_ms The duration of the pulses.
          * @param off_ms The pause within a sequence.
-         * @param tones The number of tones in a sequence.
+         * @param tones The number of pulses in a sequence.
          * @param pause_ms The pause between sequences.
-         * @param cnt The number of sequences, defaults to BUZZ_INFINTIE.
+         * @param cnt The number of sequences, defaults to PULSEDPIN_INFINTIE.
          */
-        void beep(uint16_t on_ms, uint16_t off_ms, uint8_t tones, 
-                uint16_t pause_ms, uint8_t loops = BUZZ_INFINTIE);
+        void pulse(uint16_t on_ms, uint16_t off_ms, uint8_t tones, 
+                uint16_t pause_ms, uint8_t loops = PULSEDPIN_INFINTIE);
 
         /**
          * @brief The task function to call in the main loop.
@@ -150,4 +150,4 @@ class Buzzer
         uint32_t LastTick;
 };
 
-#endif /* BUZZER_HPP_ */
+#endif /* PULSEDPIN_HPP_ */

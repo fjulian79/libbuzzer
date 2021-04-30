@@ -1,13 +1,13 @@
 {
-    "name": "libbuzzer",
+    "name": "libpulsedpin",
     "version": "1.0.0",
-    "keywords": "buzzer, Arduino",
-    "description": "A class used to control a simple buzzer and generate pulsed tones without busy waiting.",
+    "keywords": "pulse, signal generator, Arduino",
+    "description": "a class used to create low frequency pulsed signals without busy waiting or hardware timers.",
     "license": "GPL-3.0",
     "repository":
     {
       "type": "git",
-      "url": "https://github.com/fjulian79/libbuzzer.git"
+      "url": "https://github.com/fjulian79/libpulsedpin.git"
     },
     "frameworks": "arduino",
     "platforms": 
